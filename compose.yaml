@@ -1,0 +1,26 @@
+services:
+  db:
+    hostname: "sqlserver"
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    platform: linux/amd64
+    ports:
+      - "1433:1433"
+    volumes:
+      - database-vol:/data"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${DB_PASSWORD}
+
+  dev:
+    build: ./dev
+    environment:
+      - DB_USERNAME=placeholder
+      - DB_PASSWORD=${DB_PASSWORD}
+
+volumes:
+  database-vol:
+    name: "sql-server-storage"
+
+secrets:
+  db_password:
+    environment: "DB_PASSWORD"
