@@ -1,4 +1,4 @@
-FROM ubuntu:22.10
+FROM ubuntu:20.04
 
 WORKDIR "/app"
 COPY ["run_services.sh", "setup_jupyter.sh", "setup_rstudio.sh", "./"]
