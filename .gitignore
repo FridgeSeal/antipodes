@@ -106,4 +106,4 @@ rsconnect/
 # End of https://www.toptal.com/developers/gitignore/api/macos,r,jupyternotebooks
 
 packrat/lib*/
-packrat/src/*
+packrat/src/
