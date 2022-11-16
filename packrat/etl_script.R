@@ -4,16 +4,6 @@ library(RODBC)
 # library(lubridate) # added for reference, but don't import directly
 # due to namespace conflicts we'd like to avoid
 
-sql_server_pw <- Sys.getenv("DB_PASSWORD")
-if (sql_server_pw == "") {
-  print("SQL Server password must be provided via env-var DB_PASSWORD")
-  q("no")
-}
-sql_conn_str_interpolated <- stringr::str_interp("Driver={ODBC Driver 18 for SQL Server};Server=localhost;Database=antipodes;UID=SA;PWD=${sql_server_pw};TrustServerCertificate=yes;")
-sql_conn <- odbcDriverConnect(connection=sql_conn_str_interpolated)
-
-latest_update_time <- RODBC::sqlQuery(sql_conn, )
-
 extract_element <- function(page_src, css_path) {
   page_src %>% html_element(css_path) %>% html_text2()
 }
@@ -21,6 +11,23 @@ extract_element <- function(page_src, css_path) {
 clean_numericals <- function(raw_text) {
   str_replace_all(raw_text, "(\\$|%|\\r|\\s)+", "")
 }
+
+setup_db_conn <- function(host, username, password, database) {
+  sql_conn_str_interpolated <- stringr::str_interp("Driver={ODBC Driver 18 for SQL Server};Server=${host};Database=${database};UID=${username};PWD=${password};TrustServerCertificate=yes;")
+  sql_conn <- odbcDriverConnect(connection=sql_conn_str_interpolated)
+}
+
+sql_server_pw <- Sys.getenv("DB_PASSWORD")
+if (sql_server_pw == "") {
+  print("SQL Server password must be provided via env-var DB_PASSWORD")
+  q("no")
+}
+
+sql_conn <- setup_db_conn("localhost", "SA", sql_server_pw, "antipodes")
+
+latest_update_time <- RODBC::sqlQuery(sql_conn, )
+
+
 
 page <- read_html("https://www.invesco.com/us/financial-products/etfs/product-detail?audienceType=Investor&ticker=BKLN")
 
