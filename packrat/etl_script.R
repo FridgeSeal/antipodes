@@ -7,7 +7,7 @@ library(RODBC)
 sql_server_pw <- Sys.getenv("DB_PASSWORD")
 if (sql_server_pw == "") {
   print("SQL Server password must be provided via env-var DB_PASSWORD")
-  exit()
+  q("no")
 }
 sql_conn_str_interpolated <- stringr::str_interp("Driver={ODBC Driver 18 for SQL Server};Server=localhost;Database=antipodes;UID=SA;PWD=${sql_server_pw};TrustServerCertificate=yes;")
 sql_conn <- odbcDriverConnect(connection=sql_conn_str_interpolated)
