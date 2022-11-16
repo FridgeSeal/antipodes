@@ -14,6 +14,7 @@ apt-get install --no-install-recommends r-base -yq
 apt-get install gdebi-core -yq
 wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2022.07.2-576-amd64.deb
 gdebi rstudio-server-2022.07.2-576-amd64.deb
-# Healthcheck install:
-# rstudio-server verify-installation
-# rstudio starts up on install.
+
+# Misc other dependencies (database etc)
+wget https://packages.microsoft.com/ubuntu/20.04/prod/pool/main/m/msodbcsql18/msodbcsql18_18.1.2.1-1_amd64.deb
+gdebi msodbcsql18_18.1.2.1-1_amd64.deb
