@@ -1,6 +1,7 @@
 library(rvest)
 library(stringr)
-library(RODBC)
+library(odbc)
+library(DBI)
 # library(lubridate) # added for reference, but don't import directly
 # due to namespace conflicts we'd like to avoid
 
