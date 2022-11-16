@@ -1,7 +1,14 @@
 library(rvest)
 library(stringr)
+library(RODBC)
 # library(lubridate) # added for reference, but don't import directly
 # due to namespace conflicts we'd like to avoid
+
+sql_server_pw <- Sys.getenv("DB_PASSWORD")
+sql_conn_str_interpolated <- stringr::str_interp("Driver={ODBC Driver 18 for SQL Server};Server=localhost;Database=antipodes;UID=SA;PWD=${sql_server_pw};TrustServerCertificate=yes;")
+sql_conn <- odbcDriverConnect(connection=sql_conn_str_interpolated)
+
+latest_update_time <- RODBC::sqlQuery(sql_conn, )
 
 extract_element <- function(page_src, css_path) {
   page_src %>% html_element(css_path) %>% html_text2()
