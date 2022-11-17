@@ -10,15 +10,15 @@ RUN echo "datadev:test123" | chpasswd
 WORKDIR /home/datadev
 
 RUN mkdir -p renv
+
 COPY [".Rprofile", "./"]
 COPY ["renv/activate.R", "renv/settings.dcf" ,"renv/"]
-
 
 COPY [".Rprofile", "etl_script.R", "renv.lock", "antipodes.Rproj", "./"]
 COPY ["renv/", "./renv/"]
 
 WORKDIR "/app"
-COPY ["run_services.sh", "setup_jupyter.sh", "setup_rstudio.sh", "./"]
+COPY ["startup_scripts/run_services.sh", "startup_scripts/setup_jupyter.sh", "startup_scripts/setup_rstudio.sh", "./"]
 
 
 # Setup Rstudio SErver
