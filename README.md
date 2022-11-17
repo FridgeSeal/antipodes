@@ -18,4 +18,4 @@ This is a self-contained script that lives within the `dev` folder. It is includ
 
 
 ## Snow SQL
-Provided is both the table definitions, and the query itself.
+Provided is both the table definitions, and the query itself in the `snow_sql.sql` file.
