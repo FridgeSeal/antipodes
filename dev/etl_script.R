@@ -7,6 +7,8 @@ library(dbplyr)
 #library(lubridate) # added for reference, but don't import directly
 # due to namespace conflicts we'd like to avoid
 
+renv::restore()
+
 # constants and parameters
 ticker_id <- "BKLN"
 
