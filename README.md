@@ -8,6 +8,14 @@ The `setup_secrets.sh` script should be run before the `docker compose up` comma
 
 Currently database-migration scripts to setup the tables need to be run by hand, in a production-grade setup, we would be using a migration tool (DbMate, Atlas, EntityFrame, Bytebase, etc). The SQL necessary for setting up the tables is located at `dev/setup_schema.sql`
 
+Once the stack is up, the R-studio endpoint can be accessed at
+`localhost:8787` and the jupyter notebooks can be accessed at `localhost:8888`. Note - due to the way Jupyter secures access via a token, you need to grab this token from the logs in your docker-console.  
+Both services run under the `datadev` user, that has `sudo` access, as required. From within these environments, the SQL server instance is access via the hostname `sqlserver` on port 1433. Refer to the `USER_PASSWORD` and `DB_PASSWORD` environment variables for login details.
+
 
 ## ETL Script
 This is a self-contained script that lives within the `dev` folder. It is included with the `dev` docker image, dependencies are versioned and managed via `renv`, and on loading the script up in RStudio Server, the session should load the `.Rprofile` file, which will then load any missing dependencies into the environment.
+
+
+## Snow SQL
+Provided is both the table definitions, and the query itself.
