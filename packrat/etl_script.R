@@ -2,11 +2,14 @@ library(rvest)
 library(stringr)
 library(odbc)
 library(DBI)
-# library(lubridate) # added for reference, but don't import directly
+library(dplyr)
+library(dbplyr)
+#library(lubridate) # added for reference, but don't import directly
 # due to namespace conflicts we'd like to avoid
 
 # constants and parameters
 ticker_id <- "BKLN"
+
 extract_element <- function(page_src, css_path) {
   page_src %>% rvest::html_element(css_path) %>% rvest::html_text2()
 }
@@ -22,16 +25,16 @@ if (sql_server_pw == "") {
   q("no")
 }
 
-sql_conn <- con <- DBI::dbConnect(odbc::odbc(), Driver = "ODBC Driver 18 for SQL Server", Server="localhost", Database="antipodes", UID="SA", PWD=sql_server_pw, Port = 1433, TrustServerCertificate="yes")
+sql_conn <- DBI::dbConnect(odbc::odbc(), Driver = "ODBC Driver 18 for SQL Server", Server="localhost", Database="antipodes", UID="SA", PWD=sql_server_pw, Port = 1433, TrustServerCertificate="yes")
 
 
 update_table <- function(conn, tablename, ticker_id, data) {
-  last_updated_table <- tbl(conn, tablename) %>% 
-    filter(ticker == ticker_id) %>% 
-    select(last_updated) %>%
-    distinct()
-  last_update_time_db <- lubridate::parse_date_time(last_updated_db$last_updated, "%m/%d/%Y %I:%M %p", tz="EST")
-  if (is.null(last_updated_table$last_updated) || (data$last_update > last_update_time_db)) {
+  last_update_time_db <- tbl(sql_conn, tablename) %>% 
+    filter(ticker==ticker_id) %>% 
+    summarise(dt = max(last_updated)) %>% 
+    dplyr::pull("dt") %>%
+    lubridate::parse_date_time("%Y-%m-%d")
+  if (is.na(last_update_time_db) || (data$last_updated > last_update_time_db)) {
     print("New data detected - updating table")
     df_with_ticker <- dplyr::mutate(data, ticker=c(ticker_id))
     res <- DBI::dbAppendTable(conn, tablename, df_with_ticker)  
