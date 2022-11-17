@@ -138,12 +138,12 @@ fund_characteristics <- function(html_page) {
   )
 }
 
-page <- read_html("https://www.invesco.com/us/financial-products/etfs/product-detail?audienceType=Investor&ticker=BKLN")
+page <- read_html(stringr::str_interp("https://www.invesco.com/us/financial-products/etfs/product-detail?audienceType=Investor&ticker=${ticker_id}"))
 
-intraday_df <- intraday_data(page) %>% update_table(sql_conn, "intraday_stats", "BKLN", .)
-yield_df <- yield_data(page) %>% update_table(sql_conn, "yield", "BKLN", .)
-close_data_df <- close_data(page) %>% update_table(sql_conn, "prior_close", "BKLN", .)
-fund_characteristics_df <- fund_characteristics(page) %>% update_table(sql_conn, "fund_characteristics", "BKLN", .)
+intraday_df <- intraday_data(page) %>% update_table(sql_conn, "intraday_stats", ticker_id, .)
+yield_df <- yield_data(page) %>% update_table(sql_conn, "yield", ticker_id, .)
+close_data_df <- close_data(page) %>% update_table(sql_conn, "prior_close", ticker_id, .)
+fund_characteristics_df <- fund_characteristics(page) %>% update_table(sql_conn, "fund_characteristics", ticker_id, .)
 
 print("ETL Process complete")
 
