@@ -5,6 +5,8 @@ library(DBI)
 # library(lubridate) # added for reference, but don't import directly
 # due to namespace conflicts we'd like to avoid
 
+# constants and parameters
+ticker_id <- "BKLN"
 extract_element <- function(page_src, css_path) {
   page_src %>% rvest::html_element(css_path) %>% rvest::html_text2()
 }
