@@ -48,22 +48,21 @@ process_element <- function(page, css_path) {
     c()
 }
 
-process_full_date <- function(page, css_path) {
-  # date <- 
-    extract_element(page, css_path) %>%
+process_date <- function(page, css_path, dt_format) {
+  extract_element(page, css_path) %>%
     str_replace_all(pattern="(as of |\\r|\\n)", replacement= " ") %>% 
     str_trim(side="both") %>%
-    lubridate::parse_date_time("%m/%d/%Y %I:%M %p", tz="EST")
-  #lubridate::with_tz(date,tzone="UTC")
+    lubridate::parse_date_time(dt_format, tz="EST") %>%
+    lubridate::with_tz(tzone="UTC") %>%
+    lubridate::date()
+}
+
+process_full_date <- function(page, css_path) {
+    process_date(page, css_path, "%m/%d/%Y %I:%M %p")
 }
 
 process_short_date <- function(page, css_path) {
-  # date <- 
-    extract_element(page, css_path) %>%
-    str_replace_all(pattern="(as of |\\r|\\n)", replacement= " ") %>% 
-    str_trim(side="both") %>%
-    lubridate::parse_date_time("%m/%d/%Y", tz="EST")
-  #lubridate::with_tz(date,tzone="UTC")
+    process_date(page, css_path, "%m/%d/%Y")
 }
 
 intraday_data <- function(html_page) {
