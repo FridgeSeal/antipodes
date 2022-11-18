@@ -1,3 +1,7 @@
+renv::consent(provided = TRUE)
+renv::restore(prompt = FALSE)
+renv::repair()
+
 library(rvest)
 library(stringr)
 library(odbc)
