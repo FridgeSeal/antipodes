@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eux
 
-export LANG=en_AU.UTF-8
+env LANG=en_AU.UTF-8 \ LANGUAGE=en_US \ LC_ALL=en_AU.UTF-8
 
 rstudio-server start
 # Allow root call necessary on jupyter, as root access was a project requirement
