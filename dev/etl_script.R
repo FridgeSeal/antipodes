@@ -11,6 +11,7 @@ renv::restore()
 
 # constants and parameters
 ticker_id <- "BKLN"
+sql_server_pw <- "Please set me to database password"
 
 extract_element <- function(page_src, css_path) {
   page_src %>% rvest::html_element(css_path) %>% rvest::html_text2()
@@ -21,11 +22,6 @@ clean_numericals <- function(raw_text) {
 }
 
 
-sql_server_pw <- Sys.getenv("DB_PASSWORD")
-if (sql_server_pw == "") {
-  print("SQL Server password must be provided via env-var DB_PASSWORD")
-  q("no")
-}
 
 sql_conn <- DBI::dbConnect(odbc::odbc(), Driver = "ODBC Driver 18 for SQL Server", Server="localhost", Database="antipodes", UID="SA", PWD=sql_server_pw, Port = 1433, TrustServerCertificate="yes")
 
