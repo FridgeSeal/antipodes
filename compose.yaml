@@ -13,20 +13,14 @@ services:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${DB_PASSWORD}
   dev:
-    build: ./dev
+    build:
+      context: ./dev
     ports:
       - "8888:8888" # Jupyter
       - "8787:8787" # RStudio Server
     environment:
-      - DB_USERNAME=placeholder
       - DB_PASSWORD=${DB_PASSWORD}
-      - USER_PASSWORD=${USER_PASSWORD}
     depends_on:
       - "db"
 volumes:
   sqlvolume:
-
-
-secrets:
-  db_password:
-    environment: "DB_PASSWORD"

@@ -22,5 +22,5 @@ gdebi rstudio-server-2022.07.2-576-amd64.deb --n
 wget https://packages.microsoft.com/ubuntu/20.04/prod/pool/main/m/msodbcsql18/msodbcsql18_18.1.2.1-1_amd64.deb
 gdebi msodbcsql18_18.1.2.1-1_amd64.deb --n
 
-echo "Rstuduio server installation complete"
+echo "Rstudio server installation complete"
 # rstudio-server verify-installation
