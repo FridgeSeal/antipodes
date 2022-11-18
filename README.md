@@ -9,12 +9,12 @@ R-Studio will block logins of users with a user-id below 1000, which means we ne
 Currently database-migration scripts to setup the tables need to be run by hand, in a production-grade setup, we would be using a migration tool (DbMate, Atlas, EntityFrame, Bytebase, etc). The SQL necessary for setting up the tables is located at `dev/setup_schema.sql`
 
 Once the stack is up, the R-studio endpoint can be accessed at `localhost:8787` and the jupyter notebooks can be accessed at `localhost:8888`.  
-Note - due to the way Jupyter secures access via a token, you need to grab this token from the logs in your docker-console.  
+*Note* - due to the way Jupyter secures access via a token, you need to grab this token from the logs in your docker-console if you wish to access the Jupyter notebooks.  
 Both services run under the `datadev` user, that has `sudo` access, as required. From within these environments, the SQL server instance is access via the hostname `sqlserver` on port 1433. The Sql Server password will need to be set so that the R script may access the database.
 
 
 ## ETL Script
-This is a self-contained script that lives within the `dev` folder. It is included with the `dev` docker image, dependencies are versioned and managed via `renv`, and on loading the script up in RStudio Server, the session should load the `.Rprofile` file, RStudio will repair/re-instantiate any missing dependencies.
+This is a self-contained script that lives within the `dev` folder. It is included with the `dev` docker image, dependencies are versioned and managed via `renv`, and on loading the script up in RStudio Server, the session should load the `.Rprofile` file, RStudio will repair/re-instantiate any missing dependencies. As per the task guidelines, the `ticker_id` parameter is set to `BKLN`. However this is parametised everywhere in the script and database tables, this same script could be used to extract other fund information by altering that parameter.
 
 
 ### Notes
